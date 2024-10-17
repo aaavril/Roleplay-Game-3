@@ -1,10 +1,16 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Ucu.Poo.RoleplayGame;
 
 public class SpellsBook: IMagicalAttackItem, IMagicalDefenseItem
 {
     private List<ISpell> spells = new List<ISpell>();
+    
+    public ReadOnlyCollection<ISpell> Spells
+    {
+        get { return this.spells.AsReadOnly(); }
+    }
 
     public int AttackValue
     {

@@ -6,6 +6,11 @@ public class Dwarf: ICharacter
     private int health = 100;
 
     private List<IItem> items = new List<IItem>();
+    
+    public IReadOnlyCollection<IItem> Items
+    {
+        get { return this.items.AsReadOnly(); }
+    }
 
     public Dwarf(string name)
     {
@@ -65,7 +70,7 @@ public class Dwarf: ICharacter
     {
         if (this.DefenseValue < power)
         {
-            this.Health -= power - this.DefenseValue;
+            this.Health =  this.Health - power + this.DefenseValue;
         }
     }
 

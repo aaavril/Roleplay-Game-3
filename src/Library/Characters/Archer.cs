@@ -4,8 +4,25 @@ namespace Ucu.Poo.RoleplayGame;
 public class Archer: ICharacter
 {
     private int health = 100;
+    
+    public int Health
+    {
+        get
+        {
+            return this.health;
+        }
+        private set
+        {
+            this.health = value < 0 ? 0 : value;
+        }
+    }
 
     private List<IItem> items = new List<IItem>();
+    
+    public IReadOnlyCollection<IItem> Items
+    {
+        get { return this.items.AsReadOnly(); }
+    }
 
     public Archer(string name)
     {
@@ -49,23 +66,11 @@ public class Archer: ICharacter
         }
     }
 
-    public int Health
-    {
-        get
-        {
-            return this.health;
-        }
-        private set
-        {
-            this.health = value < 0 ? 0 : value;
-        }
-    }
-
     public void ReceiveAttack(int power)
     {
         if (this.DefenseValue < power)
         {
-            this.Health -= power - this.DefenseValue;
+            this.Health =  this.Health - power + this.DefenseValue;
         }
     }
 

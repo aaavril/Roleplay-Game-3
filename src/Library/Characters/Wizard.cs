@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace Ucu.Poo.RoleplayGame;
 
 public class Wizard: IMagicCharacter
@@ -6,8 +8,18 @@ public class Wizard: IMagicCharacter
     private int health = 100;
 
     private List<IItem> items = new List<IItem>();
+    
+    public IReadOnlyCollection<IItem> Items
+    {
+        get { return this.items.AsReadOnly(); }
+    }
 
     private List<IMagicalItem> magicalItems = new List<IMagicalItem>();
+    
+    public ReadOnlyCollection<IMagicalItem> MagicalItems
+    {
+        get { return this.magicalItems.AsReadOnly(); }
+    }
 
     public Wizard(string name)
     {
@@ -80,7 +92,7 @@ public class Wizard: IMagicCharacter
     {
         if (this.DefenseValue < power)
         {
-            this.Health -= power - this.DefenseValue;
+            this.Health =  this.Health - power + this.DefenseValue;
         }
     }
 

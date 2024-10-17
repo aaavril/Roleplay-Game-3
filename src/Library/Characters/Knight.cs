@@ -7,6 +7,11 @@ public class Knight: ICharacter
 
     private List<IItem> items = new List<IItem>();
 
+    public IReadOnlyCollection<IItem> Items
+    {
+        get { return this.items.AsReadOnly(); }
+    }
+    
     public Knight(string name)
     {
         this.Name = name;
@@ -66,7 +71,7 @@ public class Knight: ICharacter
     {
         if (this.DefenseValue < power)
         {
-            this.Health -= power - this.DefenseValue;
+            this.Health =  this.Health - power + this.DefenseValue;
         }
     }
 
