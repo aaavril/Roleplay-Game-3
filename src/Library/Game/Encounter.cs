@@ -7,8 +7,8 @@ public class Encounter
 
     public Encounter(List<IHero> heroes, List<IEnemy> enemies)
     {
-        this.heroes = heroes;  
-        this.enemies = enemies; 
+        this.heroes = heroes;
+        this.enemies = enemies;
     }
 
     private void EnemiesAttack()
@@ -17,7 +17,6 @@ public class Encounter
         {
             IEnemy enemy = enemies[i];
 
-            // Determinar el héroe objetivo.
             IHero targetHero = heroes[i % heroes.Count];
             targetHero.ReceiveAttack(enemy.AttackValue);
         }
@@ -25,17 +24,16 @@ public class Encounter
 
     private void HeroesAttack()
     {
-        foreach (var hero in heroes)
+        foreach (IHero hero in heroes)
         {
-            if (hero.Health > 0) // Solo los héroes vivos atacan.
+            if (hero.Health > 0) 
             {
                 foreach (var enemy in enemies)
                 {
-                    if (enemy.Health > 0) // Solo enemigos vivos son atacados.
+                    if (enemy.Health > 0) 
                     {
                         enemy.ReceiveAttack(hero.AttackValue);
 
-                        // Si el enemigo muere, el héroe gana sus puntos de victoria.
                         if (enemy.Health <= 0)
                         {
                             hero.GainVictoryPoints(enemy.VictoryPoints);
@@ -45,22 +43,34 @@ public class Encounter
             }
         }
     }
-
     private bool AreHeroesAlive()
     {
-        return heroes.Exists(hero => hero.Health > 0);
+        foreach (var hero in heroes)
+        {
+            if (hero.Health > 0)
+            {
+                return true; 
+            }
+        }
+        return false; 
     }
 
     private bool AreEnemiesAlive()
     {
-        return enemies.Exists(enemy => enemy.Health > 0);
+        foreach (var enemy in enemies)
+        {
+            if (enemy.Health > 0)
+            {
+                return true; 
+            }
+        }
+        return false; 
     }
-    
     public void DoEncounter()
     {
         if (heroes.Count == 0 || enemies.Count == 0)
         {
-            return; 
+            return;
         }
 
         while (AreHeroesAlive() && AreEnemiesAlive())
@@ -77,5 +87,5 @@ public class Encounter
                 }
             }
         }
-    }
+    } 
 }

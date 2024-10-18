@@ -19,6 +19,8 @@ public class Nessy: ICharacter, IEnemy
 
         this.AddItem(new Sword());
         this.AddItem(new Helmet());
+        this.VictoryPoints = 2;
+
     }
 
     public string Name { get; set; }

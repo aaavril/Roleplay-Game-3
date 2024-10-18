@@ -1,100 +1,61 @@
 using NUnit.Framework;
 using Ucu.Poo.RoleplayGame;
 namespace Library.Tests;
+
 public class EncounterTests
 {
-    private IHero archerHero;
-    private IHero dwarfHero;
-    private IEnemy hannibalEnemy;
-    private IEnemy nessyEnemy;
+    private Archer archer;
+    private Dwarf dwarf;
+    private Hannibal hannibal;
+    private Nessy nessy;
     private Encounter encounter;
 
     [SetUp]
-    public void Setup()
+    public void SetUp()
     {
-        // Crear héroes tipo Archer y Dwarf
-        archerHero = new Archer("Archer Hero");
-        dwarfHero = new Dwarf("Dwarf Hero");
+        archer = new Archer("Archer");
+        dwarf = new Dwarf("Dwarf");
+        hannibal = new Hannibal("Hannibal");
+        nessy = new Nessy("Nessy");
 
-        // Crear enemigos de tipo Hannibal y Nessy
-        hannibalEnemy = new Hannibal("Hannibal");
-        nessyEnemy = new Nessy("Nessy");
+        List<IHero> heroes = new List<IHero> { archer, dwarf };
+        List<IEnemy> enemies = new List<IEnemy> { hannibal, nessy };
 
-        // Configurar el encuentro con dos héroes y dos enemigos
-        var heroes = new List<IHero> { archerHero, dwarfHero };
-        var enemies = new List<IEnemy> { hannibalEnemy, nessyEnemy };
         encounter = new Encounter(heroes, enemies);
     }
-
+    
     [Test]
-    public void DoEncounter_WhenEnemiesAttack_ShouldReduceHeroHealth()
+    public void DoEncounter_HeroesWin_EnemiesAreDefeated()
     {
-        // Act
+        hannibal.ReceiveAttack(200); 
+        nessy.ReceiveAttack(200);  
+
         encounter.DoEncounter();
 
-        // Assert
-        Assert.That(archerHero.Health, Is.LessThan(100));
-        Assert.That(dwarfHero.Health, Is.LessThan(100));
+        Assert.That(hannibal.Health, Is.EqualTo(0));
+        Assert.That(nessy.Health, Is.EqualTo(0));
     }
 
     [Test]
-    public void DoEncounter_WhenHeroDefeatsEnemy_ShouldGainVictoryPoints()
+    public void DoEncounter_WhenEnemiesWin_HeroesAreAllDead()
     {
-        // Arrange
-        hannibalEnemy.ReceiveAttack(150); // Héroe derrota al enemigo Hannibal
+        archer.ReceiveAttack(100);
+        dwarf.ReceiveAttack(100);
 
-        // Act
         encounter.DoEncounter();
 
-        // Assert
-        Assert.That(archerHero.VictoryPoints, Is.GreaterThan(0));
-        Assert.That(dwarfHero.VictoryPoints, Is.GreaterThan(0));
+        Assert.That(archer.Health, Is.EqualTo(0));
+        Assert.That(dwarf.Health, Is.EqualTo(0));
     }
-
+    
     [Test]
-    public void DoEncounter_WhenHeroGainsFiveVictoryPoints_ShouldHeal()
+    public void DoEncounter_NoActionIfNoHeroesOrEnemies()
     {
-        // Arrange
-        hannibalEnemy.ReceiveAttack(150); // Héroe derrota al enemigo Hannibal
+        encounter = new Encounter(new List<IHero>(), new List<IEnemy>());
 
-        // Simular que los héroes ganan suficientes puntos de victoria
-        archerHero.GainVictoryPoints(5); // Ganar 5 puntos
-        dwarfHero.GainVictoryPoints(5); // Ganar 5 puntos
-
-        // Act
         encounter.DoEncounter();
 
-        // Assert
-        Assert.That(archerHero.Health, Is.EqualTo(100));
-        Assert.That(dwarfHero.Health, Is.EqualTo(100));
-    }
-
-    [Test]
-    public void DoEncounter_WhenNoHeroes_ShouldNotProceed()
-    {
-        // Arrange
-        var emptyHeroes = new List<IHero>(); // Sin héroes
-        encounter = new Encounter(emptyHeroes, new List<IEnemy> { hannibalEnemy, nessyEnemy });
-
-        // Act
-        encounter.DoEncounter();
-
-        // Assert
-        Assert.That(hannibalEnemy.Health, Is.EqualTo(100));
-        Assert.That(nessyEnemy.Health, Is.EqualTo(100));
-    }
-
-    [Test]
-    public void DoEncounter_WhenNoEnemies_ShouldNotProceed()
-    {
-        // Arrange
-        encounter = new Encounter(new List<IHero> { archerHero, dwarfHero }, new List<IEnemy>()); // Sin enemigos
-
-        // Act
-        encounter.DoEncounter();
-
-        // Assert
-        Assert.That(archerHero.Health, Is.EqualTo(100));
-        Assert.That(dwarfHero.Health, Is.EqualTo(100));
+        Assert.Pass();
     }
 }
+

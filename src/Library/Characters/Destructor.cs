@@ -19,6 +19,8 @@ public class Destructor: ICharacter, IEnemy
 
         this.AddItem(new Shield());
         this.AddItem(new Axe());
+        this.VictoryPoints = 3;
+
     }
 
     public string Name { get; set; }

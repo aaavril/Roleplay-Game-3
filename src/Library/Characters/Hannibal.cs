@@ -19,6 +19,7 @@ public class Hannibal: ICharacter, IEnemy
 
         this.AddItem(new Bow());
         this.AddItem(new Staff());
+        this.VictoryPoints = 2;
     }
 
     public string Name { get; set; }

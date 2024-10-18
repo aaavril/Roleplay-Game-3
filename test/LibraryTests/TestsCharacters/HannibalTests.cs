@@ -82,8 +82,7 @@ public class HannibalTests
     public void RemoveItem_ShouldDecreaseItemsCount()
     {
         // Arrange
-        var bow = hannibal.Items.FirstOrDefault(item => item is Bow); // Obtener el Bow existente
-
+        var bow = hannibal.Items.FirstOrDefault(item => item is Bow); 
         // Act
         hannibal.RemoveItem(bow);
 
