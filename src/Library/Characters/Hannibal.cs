@@ -1,23 +1,24 @@
-using System.Collections.Generic;
 namespace Ucu.Poo.RoleplayGame;
 
-public class Dwarf: ICharacter, IHero
+public class Hannibal: ICharacter, IEnemy
 {
+    public int VictoryPoints { get; } 
+
     private int health = 100;
 
     private List<IItem> items = new List<IItem>();
-    
+
     public IReadOnlyCollection<IItem> Items
     {
         get { return this.items.AsReadOnly(); }
     }
-
-    public Dwarf(string name)
+    
+    public Hannibal (string name)
     {
         this.Name = name;
 
-        this.AddItem(new Axe());
-        this.AddItem(new Helmet());
+        this.AddItem(new Bow());
+        this.AddItem(new Staff());
     }
 
     public string Name { get; set; }
@@ -87,12 +88,5 @@ public class Dwarf: ICharacter, IHero
     public void RemoveItem(IItem item)
     {
         this.items.Remove(item);
-    }
-    
-    public int VictoryPoints { get; set; }
-    
-    public void GainVictoryPoints(int points)
-    {
-        VictoryPoints += points;
     }
 }

@@ -1,24 +1,18 @@
 using System.Collections.Generic;
 namespace Ucu.Poo.RoleplayGame;
 
-public class Archer: ICharacter
+public class Archer : ICharacter, IHero
 {
     private int health = 100;
-    
+
     public int Health
     {
-        get
-        {
-            return this.health;
-        }
-        private set
-        {
-            this.health = value < 0 ? 0 : value;
-        }
+        get { return this.health; }
+        private set { this.health = value < 0 ? 0 : value; }
     }
 
     private List<IItem> items = new List<IItem>();
-    
+
     public IReadOnlyCollection<IItem> Items
     {
         get { return this.items.AsReadOnly(); }
@@ -46,6 +40,7 @@ public class Archer: ICharacter
                     value += (item as IAttackItem).AttackValue;
                 }
             }
+
             return value;
         }
     }
@@ -62,15 +57,16 @@ public class Archer: ICharacter
                     value += (item as IDefenseItem).DefenseValue;
                 }
             }
+
             return value;
         }
     }
-
+    
     public void ReceiveAttack(int power)
     {
         if (this.DefenseValue < power)
         {
-            this.Health =  this.Health - power + this.DefenseValue;
+            this.Health = this.Health - power + this.DefenseValue;
         }
     }
 
@@ -87,5 +83,12 @@ public class Archer: ICharacter
     public void RemoveItem(IItem item)
     {
         this.items.Remove(item);
+    }
+
+    public int VictoryPoints { get; set; }
+    
+    public void GainVictoryPoints(int points)
+    {
+        VictoryPoints += points;
     }
 }

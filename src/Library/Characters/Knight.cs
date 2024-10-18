@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 namespace Ucu.Poo.RoleplayGame;
 
-public class Knight: ICharacter
+public class Knight: ICharacter, IHero
 {
     private int health = 100;
 
@@ -88,5 +88,12 @@ public class Knight: ICharacter
     public void RemoveItem(IItem item)
     {
         this.items.Remove(item);
+    }
+    
+    public int VictoryPoints { get; set; }
+    
+    public void GainVictoryPoints(int points)
+    {
+        VictoryPoints += points;
     }
 }
